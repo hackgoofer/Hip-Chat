@@ -11,6 +11,7 @@ import Foundation
 class MorseCodeTranslator: NSObject {
     var morseDictionary: [String : String]
     var morseCodes : String?
+    var isEditing : Bool?
     
     override init() {
         self.morseCodes = String();
@@ -64,6 +65,9 @@ class MorseCodeTranslator: NSObject {
     }
     
     func collect(morseCode: Character) {
+        if isEditing == false {
+            isEditing = true;
+        }
         morseCodes = morseCodes! + String(morseCode)
     }
     
@@ -72,6 +76,7 @@ class MorseCodeTranslator: NSObject {
     }
     
     func clearMorseCollection() {
+        isEditing = false;
         morseCodes = String();
     }
     

@@ -9,17 +9,18 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    var myTextField: UITextField?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //TODO: center the locations
         self.view.backgroundColor = UIColor.darkGrayColor();
         
-        var myTextField: UITextField = UITextField(frame: CGRect(x: 40, y: 250, width: 300.00, height: 40.00));
-        myTextField.placeholder = "What's your nickname?";
-        myTextField.layer.cornerRadius = 2.0;
-        myTextField.textColor = UIColor.whiteColor();
+        myTextField = UITextField(frame: CGRect(x: 40, y: 250, width: 300.00, height: 40.00));
+        myTextField!.placeholder = "What's your nickname?";
+        myTextField!.layer.cornerRadius = 2.0;
+        myTextField!.textColor = UIColor.whiteColor();
         
         var underline: UIView = UIView(frame: CGRect(x: 40, y: 292, width: 300.00, height: 2.00));
         underline.backgroundColor = UIColor.whiteColor();
@@ -31,9 +32,8 @@ class ViewController: UIViewController {
         loginButton.setTitle("Login", forState:(UIControlState.Normal));
         loginButton.addTarget(self, action: "loginTapped:", forControlEvents: UIControlEvents.TouchUpInside);
         
-        
         self.view.addSubview(underline);
-        self.view.addSubview(myTextField);
+        self.view.addSubview(myTextField!);
         self.view.addSubview(loginButton);
     }
 
@@ -43,7 +43,8 @@ class ViewController: UIViewController {
     }
 
     func loginTapped(button: UIButton) {
-        var hipViewController: HipChatRoomViewController = HipChatRoomViewController();
+        var username: String? = myTextField!.text;
+        var hipViewController: HipChatRoomViewController = HipChatRoomViewController(aUserName: username);
         self.presentViewController(hipViewController, animated: true) { () -> Void in
             
         }

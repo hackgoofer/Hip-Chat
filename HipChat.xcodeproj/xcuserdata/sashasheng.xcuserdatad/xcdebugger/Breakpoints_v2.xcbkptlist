@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HipChat/HipChatRoomViewController.swift"
-            timestampString = "452977996.319247"
+            timestampString = "452980475.546813"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "handleForwardThrust(_:)"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "addHandlers()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -20,17 +20,32 @@ let BACK_DURATION = 3;
 let morseTranslator = MorseCodeTranslator();
 
 class HipChatRoomViewController: UIViewController {
-    let socket = SocketIOClient(socketURL: "http://hipsdontlie.herokuapp.com")
+    let socket = SocketIOClient(socketURL: "localhost:3000")
     let manager = CMMotionManager();
     var resetAck: AckEmitter?
     var textView: UITextView?
     var locked:Bool = false;
+    var username: String?
+    
+    init(aUserName: String?) {
+        super.init(nibName: nil, bundle: nil);
+        username = aUserName;
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder);
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
       
         self.addHandlers()
         self.socket.connect()
+        
+        
+        if username != nil {
+            self.socket.emit("add user", username!);
+        }
         
         manager.deviceMotionUpdateInterval = 0.1
         manager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler:{ deviceManager, error in
@@ -102,6 +117,7 @@ class HipChatRoomViewController: UIViewController {
     
     func handleShakeLeft(duration: NSTimeInterval) {
         println("left: ");
+        
         morseTranslator.collect(Character("."));
         startLock(duration);
     }
