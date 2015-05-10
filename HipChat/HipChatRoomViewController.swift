@@ -9,18 +9,18 @@
 import UIKit
 import CoreMotion
 
-let SIDE_THRESHOLD = 3.0;
+let SIDE_THRESHOLD = 5.0;
 let FRONT_THRESHOLD = 2.0;
-let BACK_THRESHOLD = 2.0;
+let BACK_THRESHOLD = 4.0;
 
 let SIDE_DURATION = 0.7;
 let FRONT_DURATION = 1.5;
-let BACK_DURATION = 3;
+let BACK_DURATION = 4   ;
 
 let morseTranslator = MorseCodeTranslator();
 
 class HipChatRoomViewController: UIViewController {
-    let socket = SocketIOClient(socketURL: "localhost:3000")
+    let socket = SocketIOClient(socketURL: "http://hipsdontlie.herokuapp.com")
     let manager = CMMotionManager();
     var resetAck: AckEmitter?
     var textView: UITextView?
@@ -41,11 +41,6 @@ class HipChatRoomViewController: UIViewController {
       
         self.addHandlers()
         self.socket.connect()
-        
-        
-        if username != nil {
-            self.socket.emit("add user", username!);
-        }
         
         manager.deviceMotionUpdateInterval = 0.1
         manager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler:{ deviceManager, error in
@@ -72,11 +67,6 @@ class HipChatRoomViewController: UIViewController {
         }
         
         self.view.backgroundColor = UIColor.whiteColor();
-        
-        // TODO: not needing this because we chat with our hips!!!
-        // self.textView = UITextView(frame: CGRect(x: 0, y: self.view.frame.size.height-60, width: self.view.frame.size.width, height: 60));
-        // self.textView?.backgroundColor = UIColor.lightGrayColor();
-        // self.view.addSubview(self.textView!);
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -91,16 +81,16 @@ class HipChatRoomViewController: UIViewController {
     func addHandlers() {
         
         socket.on("typing") {data, ack in
-            println("...")
+
         }
 
         socket.on("new message") {data, ack in
             if let theNewMessage = data?[0]["message"] as? NSString {
-                println(theNewMessage);
+
             }
             
             if let theUserName = data?[0]["username"] as? NSString {
-                println(theUserName);
+
             }
             
             // TODO: put it on the view
@@ -108,9 +98,13 @@ class HipChatRoomViewController: UIViewController {
         
         socket.on("connect") {data, ack in
             println("connected");
+            
+            if self.username != nil {
+                self.socket.emit("add user", self.username!);
+            }
         }
         
-        self.socket.onAny {println("Got event: \($0.event), with items: \($0.items)")}
+//        self.socket.onAny {println("Got event: \($0.event), with items: \($0.items)")}
     }
     
     // gyro:

@@ -15,8 +15,7 @@ class MorseCodeTranslator: NSObject {
     
     override init() {
         self.morseCodes = String();
-        self.morseDictionary = [""      : " ",
-                                ".-"    : "A",
+        self.morseDictionary = [".-"    : "A",
                                 "-..."  : "B",
                                 "-.-."  : "C",
                                 "-.."   : "D",
