@@ -9,18 +9,20 @@
 import UIKit
 import CoreMotion
 
-let SIDE_THRESHOLD = 5.0;
+let SIDE_THRESHOLD = 4.0;
 let FRONT_THRESHOLD = 2.0;
 let BACK_THRESHOLD = 4.0;
 
 let SIDE_DURATION = 0.7;
 let FRONT_DURATION = 1.5;
-let BACK_DURATION = 4   ;
+let BACK_DURATION = 1.5   ;
 
 let morseTranslator = MorseCodeTranslator();
 
 class HipChatRoomViewController: UIViewController {
     let socket = SocketIOClient(socketURL: "http://hipsdontlie.herokuapp.com")
+//    let socket = SocketIOClient(socketURL: "http://localhost:8000")
+
     let manager = CMMotionManager();
     var resetAck: AckEmitter?
     var textView: UITextView?
@@ -111,20 +113,22 @@ class HipChatRoomViewController: UIViewController {
     
     func handleShakeLeft(duration: NSTimeInterval) {
         println("left: ");
-        
+//        socket.emit("new message", "");
         morseTranslator.collect(Character("."));
         startLock(duration);
     }
     
     func handleShakeRight(duration: NSTimeInterval) {
         println("right: ");
+//        socket.emit("new message", "");
         morseTranslator.collect(Character("-"));
         startLock(duration);
     }
     
     func handleForwardThrust(duration: NSTimeInterval) {
         println("forward: ");
-        var letter: String? = morseTranslator.getTranslation(true);
+//        socket.emit("new message", "");
+        var letter: String? = morseTranslator.getTranslation();
         if letter != nil {
             socket.emit("new message", letter!);
         }
@@ -133,9 +137,9 @@ class HipChatRoomViewController: UIViewController {
     }
     
     func handleBackwardThrust(duration: NSTimeInterval) {
+//        socket.emit("new message", "U+1F4A9");
         println("backward: ");
-        var letter: String? = morseTranslator.getTranslation(false);
-        println("Message Composed");
+        var letter: String? = morseTranslator.getTranslation();
         println(letter);
         startLock(duration);
     }

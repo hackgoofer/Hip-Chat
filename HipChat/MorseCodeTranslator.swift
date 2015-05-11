@@ -15,7 +15,8 @@ class MorseCodeTranslator: NSObject {
     
     override init() {
         self.morseCodes = String();
-        self.morseDictionary = [".-"    : "A",
+        self.morseDictionary = [
+                                ".-"    : "A",
                                 "-..."  : "B",
                                 "-.-."  : "C",
                                 "-.."   : "D",
@@ -60,7 +61,8 @@ class MorseCodeTranslator: NSObject {
                                 "-..-." : "/",
                                 ".-..-.": "\"",
                                 ".--.-.": "@",
-                                "-...-" : "="];
+                                "-...-" : "="
+        ];
     }
     
     func collect(morseCode: Character) {
@@ -79,12 +81,8 @@ class MorseCodeTranslator: NSObject {
         morseCodes = String();
     }
     
-    func getTranslation(andClearMorseCollection: Bool) -> String? {
+    func getTranslation() -> String? {
         var code: String = self.getMorseCollection();
-        
-        if andClearMorseCollection {
-            clearMorseCollection();
-        }
         return morseDictionary[code];
     }
     
